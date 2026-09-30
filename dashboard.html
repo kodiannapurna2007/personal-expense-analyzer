@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard - Personal Expense Analyzer</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f1b3d, #182b5c, #101a3b);
+    color: #f8fafc;
+    min-height: 100vh;
+}
+
+/* NAVBAR */
+
+.navbar {
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    padding: 22px 35px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+}
+
+.navbar-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.navbar a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: #60a5fa;
+}
+
+
+/* MAIN */
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 65px 25px;
+}
+
+
+/* WELCOME */
+
+.welcome {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.welcome h1 {
+    margin: 0;
+
+    font-size: 48px;
+    color: white;
+}
+
+.welcome p {
+    color: #cbd5e1;
+    margin-top: 18px;
+    font-size: 18px;
+}
+
+
+/* MENU CARDS */
+
+.cards {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+
+    max-width: 1100px;
+
+    margin: auto;
+}
+
+.card {
+    background: rgba(51, 65, 100, 0.70);
+
+    padding: 35px 25px;
+
+    border-radius: 18px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+
+    text-align: center;
+
+    transition: 0.3s;
+
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(96,165,250,0.4);
+}
+
+
+/* ICON */
+
+.icon {
+    width: 70px;
+    height: 70px;
+
+    margin: auto;
+    margin-bottom: 20px;
+
+    border-radius: 18px;
+
+    background: rgba(148,163,184,0.25);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 35px;
+}
+
+
+/* CARD TEXT */
+
+.card h3 {
+    margin: 0;
+
+    font-size: 22px;
+
+    color: white;
+}
+
+.card p {
+    margin-top: 10px;
+
+    color: #cbd5e1;
+
+    font-size: 15px;
+}
+
+
+/* THIS MONTH BUDGET */
+
+.budget-bar {
+    max-width: 1100px;
+
+    margin: 40px auto 0;
+
+    padding: 28px 35px;
+
+    background: rgba(51, 65, 100, 0.70);
+
+    border-radius: 18px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+}
+
+.budget-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+.budget-title {
+    font-size: 18px;
+
+    color: #cbd5e1;
+}
+
+.budget-amount {
+    font-size: 22px;
+
+    font-weight: bold;
+
+    color: white;
+}
+
+
+/* PROGRESS BAR */
+
+.progress-container {
+    width: 100%;
+
+    height: 12px;
+
+    background: rgba(15,23,42,0.8);
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+
+    width: 50%;
+
+    background: #60a5fa;
+
+    border-radius: 20px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+    .navbar {
+        padding: 18px;
+    }
+
+    .navbar-links {
+        gap: 12px;
+
+        margin-top: 12px;
+    }
+
+    .container {
+        padding: 40px 15px;
+    }
+
+    .welcome h1 {
+        font-size: 32px;
+    }
+
+    .welcome p {
+        font-size: 15px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .budget-bar {
+        padding: 25px 20px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <div class="logo">
+        Personal Expense Analyzer
+    </div>
+
+    <div class="navbar-links">
+
+        <a href="/dashboard">Dashboard</a>
+
+        <a href="/add-expense">Add Expense</a>
+
+        <a href="/budget">Budget</a>
+
+        <a href="/analytics">Analytics</a>
+
+        <a href="/prediction">Prediction</a>
+
+        <a href="/insights">Insights</a>
+
+        <a href="/logout">Logout</a>
+
+    </div>
+
+</div>
+
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h1>
+            Welcome, {{ user_name }} 👋
+        </h1>
+
+        <p>
+            Manage your money, track your expenses and understand your spending.
+        </p>
+
+    </div>
+
+
+
+    <!-- SIX MENU CARDS -->
+
+    <div class="cards">
+
+
+        <!-- EXPENSE HISTORY -->
+
+        <div class="card"
+             onclick="window.location.href='/expenses'">
+
+            <div class="icon">
+                💰
+            </div>
+
+            <h3>
+                Expense History
+            </h3>
+
+            <p>
+                View and manage your expenses
+            </p>
+
+        </div>
+
+
+
+        <!-- ADD EXPENSE -->
+
+        <div class="card"
+             onclick="window.location.href='/add-expense'">
+
+            <div class="icon">
+                ➕
+            </div>
+
+            <h3>
+                Add Expense
+            </h3>
+
+            <p>
+                Record a new expense
+            </p>
+
+        </div>
+
+
+
+        <!-- BUDGET -->
+
+        <div class="card"
+             onclick="window.location.href='/budget'">
+
+            <div class="icon">
+                🎯
+            </div>
+
+            <h3>
+                Budget
+            </h3>
+
+            <p>
+                Set your monthly budget
+            </p>
+
+        </div>
+
+
+
+        <!-- ANALYTICS -->
+
+        <div class="card"
+             onclick="window.location.href='/analytics'">
+
+            <div class="icon">
+                📊
+            </div>
+
+            <h3>
+                Analytics
+            </h3>
+
+            <p>
+                View spending charts
+            </p>
+
+        </div>
+
+
+
+        <!-- PREDICTION -->
+
+        <div class="card"
+             onclick="window.location.href='/prediction'">
+
+            <div class="icon">
+                🤖
+            </div>
+
+            <h3>
+                Expense Prediction
+            </h3>
+
+            <p>
+                Predict your next month expense
+            </p>
+
+        </div>
+
+
+
+        <!-- INSIGHTS -->
+
+        <div class="card"
+             onclick="window.location.href='/insights'">
+
+            <div class="icon">
+                💡
+            </div>
+
+            <h3>
+                Spending Insights
+            </h3>
+
+            <p>
+                Understand your spending
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- THIS MONTH BUDGET -->
+
+    <div class="budget-bar">
+
+        <div class="budget-top">
+
+            <div class="budget-title">
+                This Month Budget
+            </div>
+
+            <div class="budget-amount">
+                ₹{{ monthly_expenses }} / ₹{{ monthly_budget }}
+            </div>
+
+        </div>
+
+
+        <div class="progress-container">
+
+            <div class="progress"
+                 style="width: {{ ((monthly_expenses / monthly_budget) * 100) if monthly_budget > 0 else 0 }}%;">
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+</body>
+</html>

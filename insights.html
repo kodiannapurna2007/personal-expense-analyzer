@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Spending Insights</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+
+        /* NAVBAR */
+
+        .navbar {
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+            padding: 18px 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .navbar a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #60a5fa;
+        }
+
+
+        /* CONTAINER */
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 45px 20px;
+        }
+
+
+        /* PAGE HEADER */
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            font-size: 15px;
+        }
+
+
+        /* SUMMARY CARDS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            padding: 23px;
+
+            border-radius: 14px;
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(96, 165, 250, 0.35);
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+            font-weight: normal;
+        }
+
+        .amount {
+            font-size: 25px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+
+        /* INSIGHTS BOX */
+
+        .insight-box {
+            background: rgba(30, 41, 59, 0.75);
+
+            margin-top: 28px;
+            padding: 28px;
+
+            border-radius: 16px;
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .insight-box h2 {
+            margin-bottom: 20px;
+
+            font-size: 21px;
+            color: #ffffff;
+        }
+
+
+        /* INDIVIDUAL INSIGHT */
+
+        .insight {
+            padding: 17px 18px;
+
+            margin-top: 13px;
+
+            background: rgba(15, 23, 42, 0.75);
+
+            border: 1px solid rgba(255, 255, 255, 0.06);
+
+            border-radius: 10px;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+
+            color: #cbd5e1;
+        }
+
+        .insight:hover {
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+
+
+        /* BACK BUTTON */
+
+        .back {
+            display: inline-block;
+
+            margin-top: 28px;
+
+            padding: 11px 20px;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+        .back:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 18px;
+            }
+
+            .navbar-links {
+                margin-top: 12px;
+                gap: 12px;
+            }
+
+            .container {
+                padding: 30px 15px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .insight-box {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <div class="logo">
+        Personal Expense Analyzer
+    </div>
+
+    <div class="navbar-links">
+
+        <a href="/dashboard">Dashboard</a>
+
+        <a href="/add-expense">Add Expense</a>
+
+        <a href="/expenses">History</a>
+
+        <a href="/budget">Budget</a>
+
+        <a href="/analytics">Analytics</a>
+
+        <a href="/prediction">Prediction</a>
+
+        <a href="/insights">Insights</a>
+
+        <a href="/logout">Logout</a>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <h1>Spending Insights</h1>
+
+        <p>
+            A simple overview of your spending.
+        </p>
+
+    </div>
+
+
+    <!-- SUMMARY CARDS -->
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <h3>Total Expenses</h3>
+
+            <div class="amount">
+                ₹{{ total_expenses }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>This Month</h3>
+
+            <div class="amount">
+                ₹{{ monthly_expenses }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Monthly Budget</h3>
+
+            <div class="amount">
+                ₹{{ monthly_budget }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Remaining Budget</h3>
+
+            <div class="amount">
+                ₹{{ remaining_budget }}
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- INSIGHTS -->
+
+    <div class="insight-box">
+
+        <h2>💡 Your Insights</h2>
+
+
+        <div class="insight">
+
+            📌 {{ category_message }}
+
+        </div>
+
+
+        <div class="insight">
+
+            💰 {{ budget_status }}
+
+        </div>
+
+
+        {% if monthly_budget > 0 and remaining_budget >= 0 %}
+
+        <div class="insight">
+
+            ✅ You have ₹{{ remaining_budget }}
+            remaining from your monthly budget.
+
+        </div>
+
+
+        {% elif monthly_budget > 0 %}
+
+        <div class="insight">
+
+            ⚠️ You have exceeded your monthly budget
+            by ₹{{ remaining_budget|abs }}.
+
+        </div>
+
+
+        {% else %}
+
+        <div class="insight">
+
+            💡 Set a monthly budget to receive
+            budget-related insights.
+
+        </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- BACK BUTTON -->
+
+    <a class="back" href="/dashboard">
+
+        ← Back to Dashboard
+
+    </a>
+
+
+</div>
+
+
+</body>
+
+</html>

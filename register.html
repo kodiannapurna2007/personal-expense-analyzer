@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Register - Personal Expense Analyzer</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            color: white;
+
+            overflow: hidden;
+
+
+            background:
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(59,130,246,0.25),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(16,185,129,0.20),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #172554,
+                    #111827
+                );
+
+            position: relative;
+
+        }
+
+
+        /* =========================
+           MOVING MONEY BACKGROUND
+           ========================= */
+
+        .money {
+
+            position: absolute;
+
+            color: rgba(255,255,255,0.08);
+
+            font-weight: bold;
+
+            user-select: none;
+
+            pointer-events: none;
+
+            z-index: 0;
+
+            animation:
+                floating 8s ease-in-out infinite;
+
+        }
+
+
+        .money1 {
+
+            font-size: 100px;
+
+            left: 5%;
+
+            top: 8%;
+
+            animation-delay: 0s;
+
+        }
+
+
+        .money2 {
+
+            font-size: 80px;
+
+            right: 8%;
+
+            top: 12%;
+
+            animation-delay: 2s;
+
+        }
+
+
+        .money3 {
+
+            font-size: 90px;
+
+            left: 8%;
+
+            bottom: 8%;
+
+            animation-delay: 4s;
+
+        }
+
+
+        .money4 {
+
+            font-size: 100px;
+
+            right: 9%;
+
+            bottom: 10%;
+
+            animation-delay: 1s;
+
+        }
+
+
+        .money5 {
+
+            font-size: 55px;
+
+            left: 43%;
+
+            top: 7%;
+
+            animation-delay: 3s;
+
+        }
+
+
+        .money6 {
+
+            font-size: 60px;
+
+            right: 38%;
+
+            bottom: 6%;
+
+            animation-delay: 5s;
+
+        }
+
+
+        .money7 {
+
+            font-size: 45px;
+
+            left: 2%;
+
+            top: 50%;
+
+            animation-delay: 1.5s;
+
+        }
+
+
+        .money8 {
+
+            font-size: 50px;
+
+            right: 2%;
+
+            top: 52%;
+
+            animation-delay: 3.5s;
+
+        }
+
+
+        @keyframes floating {
+
+            0% {
+
+                transform:
+                    translateY(0px)
+                    rotate(0deg);
+
+            }
+
+            25% {
+
+                transform:
+                    translateY(-20px)
+                    rotate(8deg);
+
+            }
+
+            50% {
+
+                transform:
+                    translateY(10px)
+                    rotate(-5deg);
+
+            }
+
+            75% {
+
+                transform:
+                    translateY(-15px)
+                    rotate(5deg);
+
+            }
+
+            100% {
+
+                transform:
+                    translateY(0px)
+                    rotate(0deg);
+
+            }
+
+        }
+
+
+        /* =========================
+           REGISTER CARD
+           ========================= */
+
+        .register-card {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: 450px;
+
+            max-width: 92%;
+
+            padding: 35px 40px;
+
+            border-radius: 18px;
+
+
+            background:
+                rgba(255,255,255,0.09);
+
+            border:
+                1px solid rgba(255,255,255,0.16);
+
+            backdrop-filter: blur(15px);
+
+            box-shadow:
+                0 15px 45px
+                rgba(0,0,0,0.30);
+
+        }
+
+
+        /* =========================
+           LOGO
+           ========================= */
+
+        .logo {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .logo-icon {
+
+            width: 60px;
+
+            height: 60px;
+
+            margin: auto;
+
+            border-radius: 17px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 30px;
+
+            background:
+                rgba(255,255,255,0.12);
+
+            border:
+                1px solid rgba(255,255,255,0.15);
+
+        }
+
+
+        .logo h1 {
+
+            margin:
+                14px 0 6px;
+
+            font-size: 24px;
+
+        }
+
+
+        .logo p {
+
+            margin: 0;
+
+            color: #cbd5e1;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           FORM
+           ========================= */
+
+        .form-group {
+
+            margin-bottom: 14px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+
+            color: #e2e8f0;
+
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 12px 14px;
+
+            border-radius: 9px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.18);
+
+            background:
+                rgba(255,255,255,0.08);
+
+            color: white;
+
+            font-size: 14px;
+
+            outline: none;
+
+        }
+
+
+        .form-group input::placeholder {
+
+            color: #94a3b8;
+
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #60a5fa;
+
+            background:
+                rgba(255,255,255,0.11);
+
+        }
+
+
+        /* =========================
+           BUTTON
+           ========================= */
+
+        .register-button {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+
+            transition: 0.25s;
+
+        }
+
+
+        .register-button:hover {
+
+            background: #3b82f6;
+
+            transform: translateY(-2px);
+
+        }
+
+
+        /* =========================
+           LOGIN LINK
+           ========================= */
+
+        .login-link {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #cbd5e1;
+
+            font-size: 13px;
+
+        }
+
+
+        .login-link a {
+
+            color: #93c5fd;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+        }
+
+
+        .login-link a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media(max-width:600px) {
+
+            .register-card {
+
+                padding: 30px 25px;
+
+            }
+
+            .logo h1 {
+
+                font-size: 21px;
+
+            }
+
+            .money {
+
+                font-size: 55px !important;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- MOVING MONEY SYMBOLS -->
+
+<div class="money money1">₹</div>
+
+<div class="money money2">$</div>
+
+<div class="money money3">€</div>
+
+<div class="money money4">₹</div>
+
+<div class="money money5">$</div>
+
+<div class="money money6">€</div>
+
+<div class="money money7">💰</div>
+
+<div class="money money8">💵</div>
+
+
+
+<!-- REGISTER CARD -->
+
+<div class="register-card">
+
+
+    <div class="logo">
+
+        <div class="logo-icon">
+
+            💰
+
+        </div>
+
+
+        <h1>
+
+            Create Your Account
+
+        </h1>
+
+
+        <p>
+
+            Start managing your expenses
+
+        </p>
+
+    </div>
+
+
+
+    <form method="POST">
+
+
+        <div class="form-group">
+
+            <label for="name">
+
+                Full Name
+
+            </label>
+
+
+            <input
+
+                type="text"
+
+                id="name"
+
+                name="name"
+
+                placeholder="Enter your name"
+
+                required
+
+            >
+
+        </div>
+
+
+
+        <div class="form-group">
+
+            <label for="email">
+
+                Email Address
+
+            </label>
+
+
+            <input
+
+                type="email"
+
+                id="email"
+
+                name="email"
+
+                placeholder="Enter your email"
+
+                required
+
+            >
+
+        </div>
+
+
+
+        <div class="form-group">
+
+            <label for="password">
+
+                Password
+
+            </label>
+
+
+            <input
+
+                type="password"
+
+                id="password"
+
+                name="password"
+
+                placeholder="Create a password"
+
+                required
+
+            >
+
+        </div>
+
+
+
+        <div class="form-group">
+
+            <label for="confirm_password">
+
+                Confirm Password
+
+            </label>
+
+
+            <input
+
+                type="password"
+
+                id="confirm_password"
+
+                name="confirm_password"
+
+                placeholder="Confirm your password"
+
+                required
+
+            >
+
+        </div>
+
+
+
+        <button
+
+            type="submit"
+
+            class="register-button"
+
+        >
+
+            Create Account
+
+        </button>
+
+
+    </form>
+
+
+
+    <div class="login-link">
+
+        Already have an account?
+
+        <a href="/login">
+
+            Login
+
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Expense Prediction - Personal Expense Analyzer</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            color: #ffffff;
+
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(37, 99, 235, 0.22),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(14, 165, 233, 0.18),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #020617,
+                    #07142f,
+                    #0b1d3a
+                );
+
+            background-attachment: fixed;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            width: 100%;
+
+            padding: 18px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            background:
+                rgba(2, 6, 23, 0.88);
+
+            border-bottom:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            backdrop-filter: blur(15px);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+        }
+
+
+        .logo {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            letter-spacing: 0.3px;
+        }
+
+
+        .navbar-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 22px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .navbar-links a {
+
+            color: #cbd5e1;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+
+        .navbar-links a:hover {
+
+            color: #60a5fa;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+
+            max-width: 850px;
+
+            margin: auto;
+
+            padding: 55px 20px;
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .page-header h1 {
+
+            margin: 0;
+
+            font-size: 34px;
+
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #60a5fa
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        .page-header p {
+
+            margin-top: 10px;
+
+            color: #94a3b8;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           PREDICTION CARD
+        ========================= */
+
+        .prediction-card {
+
+            padding: 45px 30px;
+
+            text-align: center;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.09),
+                    rgba(255, 255, 255, 0.035)
+                );
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.10);
+
+            box-shadow:
+                0 18px 50px
+                rgba(0, 0, 0, 0.30);
+
+            backdrop-filter: blur(16px);
+        }
+
+
+        /* =========================
+           ICON
+        ========================= */
+
+        .icon {
+
+            width: 75px;
+
+            height: 75px;
+
+            margin: 0 auto 20px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 50%;
+
+            background:
+                rgba(37, 99, 235, 0.15);
+
+            border:
+                1px solid
+                rgba(96, 165, 250, 0.25);
+
+            font-size: 34px;
+        }
+
+
+        .prediction-card h2 {
+
+            margin: 10px 0;
+
+            font-size: 22px;
+
+            color: #f8fafc;
+        }
+
+
+        .description {
+
+            color: #94a3b8;
+
+            font-size: 14px;
+
+            margin-bottom: 30px;
+        }
+
+
+        /* =========================
+           PREDICTION AMOUNT
+        ========================= */
+
+        .prediction-box {
+
+            max-width: 500px;
+
+            margin: 25px auto;
+
+            padding: 30px 20px;
+
+            border-radius: 17px;
+
+            background:
+                rgba(15, 23, 42, 0.65);
+
+            border:
+                1px solid
+                rgba(96, 165, 250, 0.16);
+        }
+
+
+        .prediction-label {
+
+            color: #94a3b8;
+
+            font-size: 14px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .prediction {
+
+            margin: 0;
+
+            font-size: 45px;
+
+            font-weight: bold;
+
+            color: #ffffff;
+        }
+
+
+        .prediction-note {
+
+            color: #94a3b8;
+
+            font-size: 13px;
+
+            margin-top: 10px;
+        }
+
+
+        /* =========================
+           SIMPLE MESSAGE
+        ========================= */
+
+        .message {
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(15, 23, 42, 0.65);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            color: #cbd5e1;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        .error {
+
+            color: #fecaca;
+
+            background:
+                rgba(127, 29, 29, 0.20);
+
+            border:
+                1px solid
+                rgba(248, 113, 113, 0.20);
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .buttons {
+
+            margin-top: 30px;
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .button {
+
+            display: inline-block;
+
+            padding: 11px 22px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            background:
+                #2563eb;
+
+            color: white;
+
+            transition: 0.3s;
+        }
+
+
+        .button:hover {
+
+            background:
+                #1d4ed8;
+
+            transform: translateY(-2px);
+        }
+
+
+        .button.secondary {
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            color: #cbd5e1;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.10);
+        }
+
+
+        .button.secondary:hover {
+
+            background:
+                rgba(255, 255, 255, 0.13);
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .navbar {
+
+                padding: 18px 20px;
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .navbar-links {
+
+                margin-top: 14px;
+
+                gap: 14px;
+            }
+
+
+            .container {
+
+                padding:
+                    40px 15px;
+            }
+
+
+            .page-header h1 {
+
+                font-size: 28px;
+            }
+
+
+            .prediction-card {
+
+                padding: 35px 20px;
+            }
+
+
+            .prediction {
+
+                font-size: 36px;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            .logo {
+
+                font-size: 17px;
+            }
+
+
+            .navbar-links {
+
+                gap: 10px;
+            }
+
+
+            .navbar-links a {
+
+                font-size: 12px;
+            }
+
+
+            .page-header h1 {
+
+                font-size: 25px;
+            }
+
+
+            .prediction {
+
+                font-size: 32px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="navbar">
+
+    <div class="logo">
+        Personal Expense Analyzer
+    </div>
+
+
+    <div class="navbar-links">
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/add-expense">
+            Add Expense
+        </a>
+
+        <a href="/expenses">
+            History
+        </a>
+
+        <a href="/budget">
+            Budget
+        </a>
+
+        <a href="/analytics">
+            Analytics
+        </a>
+
+        <a href="/prediction">
+            Prediction
+        </a>
+
+        <a href="/insights">
+            Insights
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<div class="container">
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <h1>
+            Expense Prediction
+        </h1>
+
+        <p>
+            See your estimated spending for the next month.
+        </p>
+
+    </div>
+
+
+
+    <!-- PREDICTION CARD -->
+
+    <div class="prediction-card">
+
+
+        <div class="icon">
+            🤖
+        </div>
+
+
+        <h2>
+            Next Month Expense
+        </h2>
+
+
+        <p class="description">
+            Based on your previous monthly expenses.
+        </p>
+
+
+
+        {% if result.success %}
+
+
+            <!-- PREDICTED AMOUNT -->
+
+            <div class="prediction-box">
+
+                <div class="prediction-label">
+                    Estimated Expense
+                </div>
+
+
+                <div class="prediction">
+                    ₹{{ result.prediction }}
+                </div>
+
+
+                <div class="prediction-note">
+                    Estimated spending for your next month
+                </div>
+
+            </div>
+
+
+            <div class="message">
+
+                Keep tracking your expenses regularly
+                to get better spending insights.
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- NOT ENOUGH DATA -->
+
+            <div class="error">
+
+                ⚠️ {{ result.message }}
+
+            </div>
+
+
+            <div class="message">
+
+                Please add expenses from at least
+                two different months to generate
+                a prediction.
+
+            </div>
+
+
+        {% endif %}
+
+
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+            <a
+                class="button"
+                href="/dashboard"
+            >
+                ← Dashboard
+            </a>
+
+
+            <a
+                class="button secondary"
+                href="/analytics"
+            >
+                View Analytics
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

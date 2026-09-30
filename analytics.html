@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Analytics - Personal Expense Analyzer</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chart.js Data Labels -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(37, 99, 235, 0.22),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(14, 165, 233, 0.18),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #020617,
+                    #07142f,
+                    #0b1d3a
+                );
+
+            background-attachment: fixed;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            width: 100%;
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(2, 6, 23, 0.88);
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+            backdrop-filter: blur(15px);
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+        }
+
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+
+        .navbar-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+
+        .navbar-links a:hover {
+            color: #60a5fa;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 45px 22px 60px;
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+
+        .page-header h1 {
+            margin: 0;
+
+            font-size: 34px;
+            font-weight: 700;
+
+            background: linear-gradient(
+                90deg,
+                #ffffff,
+                #60a5fa
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        .page-header p {
+            margin-top: 10px;
+
+            color: #94a3b8;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           SUMMARY CARDS
+        ========================= */
+
+        .summary {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 22px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .summary-card {
+
+            padding: 25px;
+
+            min-height: 125px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.09),
+                    rgba(255, 255, 255, 0.035)
+                );
+
+            border: 1px solid rgba(
+                255,
+                255,
+                255,
+                0.10
+            );
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.25);
+
+            backdrop-filter: blur(15px);
+
+            transition: 0.3s;
+        }
+
+
+        .summary-card:hover {
+
+            transform: translateY(-4px);
+
+            border-color:
+                rgba(96, 165, 250, 0.35);
+
+            box-shadow:
+                0 18px 45px
+                rgba(0, 0, 0, 0.35);
+        }
+
+
+        .summary-card h3 {
+
+            margin: 0 0 12px;
+
+            color: #94a3b8;
+
+            font-size: 14px;
+
+            font-weight: normal;
+        }
+
+
+        .summary-card p {
+
+            margin: 0;
+
+            font-size: 28px;
+
+            font-weight: bold;
+
+            color: #ffffff;
+        }
+
+
+        /* =========================
+           CHART GRID
+        ========================= */
+
+        .charts {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 25px;
+        }
+
+
+        /* =========================
+           CHART CARD
+        ========================= */
+
+        .chart-box {
+
+            min-height: 500px;
+
+            padding: 28px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.085),
+                    rgba(255, 255, 255, 0.035)
+                );
+
+            border: 1px solid rgba(
+                255,
+                255,
+                255,
+                0.10
+            );
+
+            box-shadow:
+                0 15px 45px
+                rgba(0, 0, 0, 0.28);
+
+            backdrop-filter: blur(16px);
+        }
+
+
+        .chart-box h2 {
+
+            margin-top: 0;
+
+            margin-bottom: 8px;
+
+            text-align: center;
+
+            color: #f8fafc;
+
+            font-size: 20px;
+        }
+
+
+        .chart-description {
+
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+
+            margin-bottom: 22px;
+        }
+
+
+        /* =========================
+           PIE CHART
+        ========================= */
+
+        .pie-container {
+
+            height: 400px;
+
+            position: relative;
+        }
+
+
+        /* =========================
+           BAR CHART
+        ========================= */
+
+        .bar-container {
+
+            height: 400px;
+
+            position: relative;
+        }
+
+
+        /* =========================
+           NO DATA
+        ========================= */
+
+        .no-data {
+
+            text-align: center;
+
+            color: #94a3b8;
+
+            padding: 120px 20px;
+        }
+
+
+        .no-data h3 {
+
+            color: #e2e8f0;
+
+            font-size: 20px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .no-data p {
+
+            color: #94a3b8;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           BOTTOM NOTE
+        ========================= */
+
+        .analytics-note {
+
+            margin-top: 28px;
+
+            padding: 20px;
+
+            border-radius: 16px;
+
+            text-align: center;
+
+            background:
+                rgba(
+                    37,
+                    99,
+                    235,
+                    0.08
+                );
+
+            border:
+                1px solid
+                rgba(
+                    96,
+                    165,
+                    250,
+                    0.15
+                );
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 950px) {
+
+            .charts {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .summary {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            .navbar {
+
+                padding: 18px 20px;
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .navbar-links {
+
+                margin-top: 14px;
+
+                gap: 14px;
+            }
+
+
+            .container {
+
+                padding:
+                    30px 15px 45px;
+            }
+
+
+            .page-header h1 {
+
+                font-size: 27px;
+            }
+
+
+            .summary {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .summary-card {
+
+                min-height: 110px;
+            }
+
+
+            .chart-box {
+
+                padding: 20px;
+
+                min-height: 450px;
+            }
+
+
+            .pie-container,
+            .bar-container {
+
+                height: 350px;
+            }
+        }
+
+
+        @media (max-width: 450px) {
+
+            .logo {
+
+                font-size: 17px;
+            }
+
+
+            .navbar-links {
+
+                gap: 10px;
+            }
+
+
+            .navbar-links a {
+
+                font-size: 12px;
+            }
+
+
+            .page-header h1 {
+
+                font-size: 24px;
+            }
+
+
+            .pie-container,
+            .bar-container {
+
+                height: 300px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<div class="navbar">
+
+    <div class="logo">
+        Personal Expense Analyzer
+    </div>
+
+
+    <div class="navbar-links">
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/add-expense">
+            Add Expense
+        </a>
+
+        <a href="/expenses">
+            History
+        </a>
+
+        <a href="/budget">
+            Budget
+        </a>
+
+        <a href="/analytics">
+            Analytics
+        </a>
+
+        <a href="/prediction">
+            Prediction
+        </a>
+
+        <a href="/insights">
+            Insights
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<div class="container">
+
+
+    <!-- =========================
+         PAGE HEADER
+    ========================= -->
+
+    <div class="page-header">
+
+        <h1>
+            Spending Analytics
+        </h1>
+
+        <p>
+            Understand your spending patterns through visual analysis.
+        </p>
+
+    </div>
+
+
+
+    <!-- =========================
+         SUMMARY CARDS
+    ========================= -->
+
+    {% if category_data %}
+
+        {% set namespace = namespace(total_spending=0) %}
+
+        {% for item in category_data %}
+
+            {% set namespace.total_spending =
+                namespace.total_spending + item.total
+            %}
+
+        {% endfor %}
+
+
+        <div class="summary">
+
+
+            <!-- TOTAL SPENDING -->
+
+            <div class="summary-card">
+
+                <h3>
+                    Total Spending
+                </h3>
+
+                <p>
+                    ₹{{ "%.2f"|format(namespace.total_spending) }}
+                </p>
+
+            </div>
+
+
+            <!-- CATEGORIES -->
+
+            <div class="summary-card">
+
+                <h3>
+                    Categories
+                </h3>
+
+                <p>
+                    {{ category_data|length }}
+                </p>
+
+            </div>
+
+
+            <!-- MONTHS -->
+
+            <div class="summary-card">
+
+                <h3>
+                    Months Tracked
+                </h3>
+
+                <p>
+                    {{ monthly_data|length }}
+                </p>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+
+    <!-- =========================
+         CHARTS
+    ========================= -->
+
+    <div class="charts">
+
+
+        <!-- =========================
+             CATEGORY PIE CHART
+        ========================= -->
+
+        {% if category_data %}
+
+        <div class="chart-box">
+
+            <h2>
+                Category-wise Spending
+            </h2>
+
+            <div class="chart-description">
+                Percentage of total spending by category
+            </div>
+
+
+            <div class="pie-container">
+
+                <canvas id="categoryChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <script>
+
+            const categories = [
+
+                {% for item in category_data %}
+
+                    "{{ item.category }}",
+
+                {% endfor %}
+
+            ];
+
+
+            const amounts = [
+
+                {% for item in category_data %}
+
+                    {{ item.total }},
+
+                {% endfor %}
+
+            ];
+
+
+            const categoryCtx =
+                document
+                .getElementById(
+                    "categoryChart"
+                )
+                .getContext("2d");
+
+
+            new Chart(
+                categoryCtx,
+                {
+
+                    type: "pie",
+
+                    data: {
+
+                        labels: categories,
+
+                        datasets: [{
+
+                            label: "Spending",
+
+                            data: amounts,
+
+                            borderWidth: 2,
+
+                            borderColor:
+                                "#0f172a"
+
+                        }]
+
+                    },
+
+
+                    plugins: [
+                        ChartDataLabels
+                    ],
+
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+
+                        plugins: {
+
+                            legend: {
+
+                                position: "bottom",
+
+                                labels: {
+
+                                    color: "#cbd5e1",
+
+                                    padding: 15,
+
+                                    font: {
+
+                                        size: 12
+                                    }
+                                }
+                            },
+
+
+                            datalabels: {
+
+                                color: "#ffffff",
+
+                                font: {
+
+                                    weight: "bold",
+
+                                    size: 13
+                                },
+
+
+                                formatter:
+                                    function(
+                                        value,
+                                        context
+                                    ) {
+
+                                        const data =
+                                            context
+                                            .chart
+                                            .data
+                                            .datasets[0]
+                                            .data;
+
+
+                                        const total =
+                                            data.reduce(
+                                                (
+                                                    sum,
+                                                    number
+                                                ) =>
+                                                    sum +
+                                                    number,
+                                                0
+                                            );
+
+
+                                        const percentage =
+                                            (
+                                                value /
+                                                total *
+                                                100
+                                            ).toFixed(1);
+
+
+                                        return (
+                                            percentage +
+                                            "%"
+                                        );
+
+                                    }
+
+                            },
+
+
+                            tooltip: {
+
+                                callbacks: {
+
+                                    label:
+                                        function(
+                                            context
+                                        ) {
+
+                                            const value =
+                                                context.raw;
+
+
+                                            const data =
+                                                context
+                                                .chart
+                                                .data
+                                                .datasets[0]
+                                                .data;
+
+
+                                            const total =
+                                                data.reduce(
+                                                    (
+                                                        sum,
+                                                        number
+                                                    ) =>
+                                                        sum +
+                                                        number,
+                                                    0
+                                                );
+
+
+                                            const percentage =
+                                                (
+                                                    value /
+                                                    total *
+                                                    100
+                                                ).toFixed(1);
+
+
+                                            return (
+                                                context.label +
+                                                ": ₹" +
+                                                Number(
+                                                    value
+                                                ).toFixed(2) +
+                                                " (" +
+                                                percentage +
+                                                "%)"
+                                            );
+
+                                        }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+        </script>
+
+
+        {% else %}
+
+        <div class="chart-box">
+
+            <div class="no-data">
+
+                <h3>
+                    No Category Data
+                </h3>
+
+                <p>
+                    Add some expenses to see
+                    category-wise spending.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- =========================
+             MONTHLY BAR CHART
+        ========================= -->
+
+        {% if monthly_data %}
+
+        <div class="chart-box">
+
+            <h2>
+                Monthly Spending
+            </h2>
+
+            <div class="chart-description">
+                Track how your spending changes month by month
+            </div>
+
+
+            <div class="bar-container">
+
+                <canvas id="monthlyChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+        <script>
+
+            const monthNames = [
+
+                {% for item in monthly_data %}
+
+                    "{{ item.month_name }}",
+
+                {% endfor %}
+
+            ];
+
+
+            const monthlyAmounts = [
+
+                {% for item in monthly_data %}
+
+                    {{ item.total }},
+
+                {% endfor %}
+
+            ];
+
+
+            const monthlyCtx =
+                document
+                .getElementById(
+                    "monthlyChart"
+                )
+                .getContext("2d");
+
+
+            new Chart(
+                monthlyCtx,
+                {
+
+                    type: "bar",
+
+                    data: {
+
+                        labels: monthNames,
+
+                        datasets: [{
+
+                            label:
+                                "Monthly Spending",
+
+                            data:
+                                monthlyAmounts,
+
+                            borderRadius: 8,
+
+                            borderSkipped: false
+
+                        }]
+
+                    },
+
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+
+                        scales: {
+
+                            y: {
+
+                                beginAtZero: true,
+
+                                grid: {
+
+                                    color:
+                                        "rgba(255,255,255,0.08)"
+                                },
+
+
+                                ticks: {
+
+                                    color: "#94a3b8",
+
+                                    callback:
+                                        function(value) {
+
+                                            return "₹" +
+                                                value;
+                                        }
+
+                                },
+
+
+                                title: {
+
+                                    display: true,
+
+                                    text:
+                                        "Amount (₹)",
+
+                                    color:
+                                        "#94a3b8"
+                                }
+
+                            },
+
+
+                            x: {
+
+                                grid: {
+
+                                    display: false
+                                },
+
+
+                                ticks: {
+
+                                    color:
+                                        "#94a3b8"
+                                },
+
+
+                                title: {
+
+                                    display: true,
+
+                                    text: "Month",
+
+                                    color:
+                                        "#94a3b8"
+                                }
+
+                            }
+
+                        },
+
+
+                        plugins: {
+
+                            legend: {
+
+                                display: false
+
+                            },
+
+
+                            tooltip: {
+
+                                callbacks: {
+
+                                    label:
+                                        function(
+                                            context
+                                        ) {
+
+                                            return (
+                                                "Spending: ₹" +
+                                                Number(
+                                                    context.raw
+                                                ).toFixed(2)
+                                            );
+
+                                        }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+        </script>
+
+
+        {% else %}
+
+        <div class="chart-box">
+
+            <div class="no-data">
+
+                <h3>
+                    No Monthly Data
+                </h3>
+
+                <p>
+                    Add expenses from different
+                    months to see monthly trends.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+
+    <!-- =========================
+         INFORMATION NOTE
+    ========================= -->
+
+    <div class="analytics-note">
+
+        Analytics helps you understand where
+        your money is going and how your
+        spending changes over time.
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

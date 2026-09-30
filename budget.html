@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Budget - Personal Expense Analyzer</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(59,130,246,0.20),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(37,99,235,0.16),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #172554,
+                    #111827
+                );
+        }
+
+
+        /* =========================
+           TOP BAR
+           ========================= */
+
+        .topbar {
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+            background:
+                rgba(15,23,42,0.70);
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            backdrop-filter: blur(12px);
+        }
+
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+
+        .back-top {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+
+        .back-top:hover {
+            color: #60a5fa;
+        }
+
+
+        /* =========================
+           PAGE
+           ========================= */
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+
+            margin: auto;
+
+            padding: 45px 20px;
+        }
+
+
+        /* =========================
+           HEADER
+           ========================= */
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+
+        .page-header p {
+            margin-top: 8px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           MONTH SELECTOR
+           ========================= */
+
+        .month-selector {
+            margin-bottom: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 16px 20px;
+
+            background:
+                rgba(255,255,255,0.07);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.13);
+
+            border-radius: 14px;
+
+            backdrop-filter: blur(12px);
+        }
+
+
+        .month-selector label {
+            color: #cbd5e1;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+
+        .month-selector select {
+            min-width: 180px;
+
+            padding: 11px 14px;
+
+            border-radius: 9px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.18);
+
+            background: #1e293b;
+
+            color: white;
+
+            font-size: 14px;
+
+            outline: none;
+
+            cursor: pointer;
+        }
+
+
+        .month-selector select:focus {
+            border-color: #60a5fa;
+        }
+
+
+        .month-selector option {
+            background: #1e293b;
+            color: white;
+        }
+
+
+        /* =========================
+           MAIN BUDGET CARD
+           ========================= */
+
+        .budget-card {
+            background:
+                rgba(255,255,255,0.07);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.13);
+
+            border-radius: 20px;
+
+            padding: 28px;
+
+            backdrop-filter: blur(15px);
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.25);
+        }
+
+
+        /* =========================
+           BACK BUTTON
+           ========================= */
+
+        .back-button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 55px;
+            height: 45px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
+            background:
+                rgba(255,255,255,0.04);
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 22px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .back-button:hover {
+            background:
+                rgba(255,255,255,0.10);
+        }
+
+
+        /* =========================
+           BUDGET SUMMARY
+           ========================= */
+
+        .budget-summary {
+            background:
+                rgba(0,0,0,0.18);
+
+            border-radius: 16px;
+
+            padding: 22px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .summary-label {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+
+        .spent-amount {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+
+        .budget-limit {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           PROGRESS
+           ========================= */
+
+        .progress-background {
+            width: 100%;
+            height: 10px;
+
+            background:
+                rgba(255,255,255,0.12);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-top: 18px;
+        }
+
+
+        .progress-bar {
+            height: 100%;
+
+            border-radius: 20px;
+
+            background: #3b82f6;
+
+            transition: width 0.5s ease;
+        }
+
+
+        /* =========================
+           CATEGORY SECTION
+           ========================= */
+
+        .category-section {
+            margin-top: 28px;
+        }
+
+
+        .category-section h2 {
+            font-size: 18px;
+            margin: 0 0 20px;
+        }
+
+
+        .category {
+            margin-bottom: 20px;
+        }
+
+
+        .category-header {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 8px;
+        }
+
+
+        .category-name {
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+
+
+        .category-amount {
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+
+        .category-track {
+            width: 100%;
+            height: 9px;
+
+            background:
+                rgba(255,255,255,0.10);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .category-bar {
+            height: 100%;
+            border-radius: 20px;
+        }
+
+
+        .green {
+            background: #65a30d;
+        }
+
+
+        .orange {
+            background: #f59e0b;
+        }
+
+
+        .red {
+            background: #ef4444;
+        }
+
+
+        /* =========================
+           NO DATA
+           ========================= */
+
+        .no-data {
+            text-align: center;
+            color: #94a3b8;
+            padding: 25px 10px;
+        }
+
+
+        /* =========================
+           SET BUDGET
+           ========================= */
+
+        .set-budget {
+            margin-top: 28px;
+
+            padding-top: 25px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.08);
+        }
+
+
+        .set-budget h2 {
+            font-size: 18px;
+            margin-top: 0;
+        }
+
+
+        .budget-form {
+            display: flex;
+            gap: 10px;
+        }
+
+
+        .budget-form input {
+            flex: 1;
+
+            padding: 13px;
+
+            border-radius: 9px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.15);
+
+            background:
+                rgba(255,255,255,0.07);
+
+            color: white;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+
+        .budget-form input::placeholder {
+            color: #94a3b8;
+        }
+
+
+        .budget-form input:focus {
+            border-color: #60a5fa;
+        }
+
+
+        .budget-form button {
+            padding: 13px 22px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .budget-form button:hover {
+            background: #3b82f6;
+        }
+
+
+        /* =========================
+           BOTTOM MENU
+           ========================= */
+
+        .bottom-menu {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+
+        .bottom-item {
+            height: 58px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.10);
+
+            background:
+                rgba(255,255,255,0.04);
+
+            color: #cbd5e1;
+
+            text-decoration: none;
+
+            font-size: 20px;
+
+            transition: 0.2s;
+        }
+
+
+        .bottom-item:hover {
+            background:
+                rgba(255,255,255,0.10);
+
+            color: white;
+        }
+
+
+        .bottom-item.active {
+            background: #3b82f6;
+
+            color: white;
+
+            border-color: #3b82f6;
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media(max-width:600px) {
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+
+            .logo {
+                font-size: 17px;
+            }
+
+
+            .container {
+                padding: 30px 15px;
+            }
+
+
+            .budget-card {
+                padding: 20px;
+            }
+
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+
+            .spent-amount {
+                font-size: 28px;
+            }
+
+
+            .month-selector {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+
+            .month-selector select {
+                width: 100%;
+            }
+
+
+            .budget-form {
+                flex-direction: column;
+            }
+
+
+            .budget-form button {
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+
+    <div class="logo">
+        Personal Expense Analyzer
+    </div>
+
+
+    <a
+        href="/logout"
+        class="back-top"
+    >
+        Logout
+    </a>
+
+</div>
+
+
+
+<div class="container">
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <h1>
+            Budget
+        </h1>
+
+        <p>
+            Track your monthly spending and stay within your budget.
+        </p>
+
+    </div>
+
+
+    <!-- MONTH SELECTOR -->
+
+    <div class="month-selector">
+
+        <label for="month">
+            Select Month
+        </label>
+
+
+        <select
+            id="month"
+            onchange="changeMonth(this.value)"
+        >
+
+            <option value="1"
+                {% if selected_month == 1 %}selected{% endif %}>
+                January
+            </option>
+
+            <option value="2"
+                {% if selected_month == 2 %}selected{% endif %}>
+                February
+            </option>
+
+            <option value="3"
+                {% if selected_month == 3 %}selected{% endif %}>
+                March
+            </option>
+
+            <option value="4"
+                {% if selected_month == 4 %}selected{% endif %}>
+                April
+            </option>
+
+            <option value="5"
+                {% if selected_month == 5 %}selected{% endif %}>
+                May
+            </option>
+
+            <option value="6"
+                {% if selected_month == 6 %}selected{% endif %}>
+                June
+            </option>
+
+            <option value="7"
+                {% if selected_month == 7 %}selected{% endif %}>
+                July
+            </option>
+
+            <option value="8"
+                {% if selected_month == 8 %}selected{% endif %}>
+                August
+            </option>
+
+            <option value="9"
+                {% if selected_month == 9 %}selected{% endif %}>
+                September
+            </option>
+
+            <option value="10"
+                {% if selected_month == 10 %}selected{% endif %}>
+                October
+            </option>
+
+            <option value="11"
+                {% if selected_month == 11 %}selected{% endif %}>
+                November
+            </option>
+
+            <option value="12"
+                {% if selected_month == 12 %}selected{% endif %}>
+                December
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- MAIN BUDGET CARD -->
+
+    <div class="budget-card">
+
+
+        <!-- BACK -->
+
+        <a
+            href="/dashboard"
+            class="back-button"
+        >
+            ←
+        </a>
+
+
+
+        <!-- TOTAL BUDGET -->
+
+        <div class="budget-summary">
+
+            <div class="summary-label">
+                Spent in {{ selected_month_name }}
+            </div>
+
+
+            <div class="spent-amount">
+                ₹{{ monthly_expenses }}
+            </div>
+
+
+            <div class="budget-limit">
+
+                {{ selected_month_name }}
+                {{ current_year }}
+                budget:
+
+                ₹{{ monthly_budget }}
+
+            </div>
+
+
+            {% if monthly_budget > 0 %}
+
+                {% set percentage =
+                    (monthly_expenses / monthly_budget * 100)
+                %}
+
+
+                {% if percentage > 100 %}
+
+                    {% set width = 100 %}
+
+                {% else %}
+
+                    {% set width = percentage %}
+
+                {% endif %}
+
+
+                <div class="progress-background">
+
+                    <div
+                        class="progress-bar"
+                        style="width: {{ width }}%;"
+                    ></div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+
+        <!-- CATEGORY SPENDING -->
+
+        <div class="category-section">
+
+            <h2>
+                Category Spending
+            </h2>
+
+
+            {% if category_data %}
+
+
+                {% for item in category_data %}
+
+                    {% if monthly_budget > 0 %}
+
+                        {% set percentage =
+                            (item.total / monthly_budget * 100)
+                        %}
+
+                    {% else %}
+
+                        {% set percentage = 0 %}
+
+                    {% endif %}
+
+
+                    {% if percentage >= 100 %}
+
+                        {% set width = 100 %}
+                        {% set color = "red" %}
+
+                    {% elif percentage >= 75 %}
+
+                        {% set width = percentage %}
+                        {% set color = "orange" %}
+
+                    {% else %}
+
+                        {% set width = percentage %}
+                        {% set color = "green" %}
+
+                    {% endif %}
+
+
+                    <div class="category">
+
+
+                        <div class="category-header">
+
+                            <span class="category-name">
+                                {{ item.category }}
+                            </span>
+
+
+                            <span class="category-amount">
+                                ₹{{ item.total }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="category-track">
+
+                            <div
+                                class="category-bar {{ color }}"
+                                style="width: {{ width }}%;"
+                            ></div>
+
+                        </div>
+
+
+                    </div>
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <div class="no-data">
+                    No expenses recorded for this month.
+                </div>
+
+
+            {% endif %}
+
+        </div>
+
+
+
+        <!-- SET BUDGET -->
+
+        <div class="set-budget">
+
+            <h2>
+                Set Monthly Budget
+            </h2>
+
+
+            <form
+                method="POST"
+                class="budget-form"
+            >
+
+                <!-- IMPORTANT:
+                     Keeps the selected month when saving budget -->
+
+                <input
+                    type="hidden"
+                    name="month"
+                    value="{{ selected_month }}"
+                >
+
+
+                <input
+                    type="number"
+                    name="amount"
+                    placeholder="Enter budget amount in ₹"
+                    min="1"
+                    step="0.01"
+                    required
+                >
+
+
+                <button type="submit">
+                    Save Budget
+                </button>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- BOTTOM MENU -->
+
+        <div class="bottom-menu">
+
+
+            <a
+                href="/dashboard"
+                class="bottom-item"
+                title="Dashboard"
+            >
+                ⌂
+            </a>
+
+
+            <a
+                href="/expenses"
+                class="bottom-item"
+                title="Expenses"
+            >
+                ▤
+            </a>
+
+
+            <a
+                href="/add-expense"
+                class="bottom-item"
+                title="Add Expense"
+            >
+                +
+            </a>
+
+
+            <a
+                href="/analytics"
+                class="bottom-item"
+                title="Analytics"
+            >
+                ◎
+            </a>
+
+
+            <a
+                href="/insights"
+                class="bottom-item"
+                title="Insights"
+            >
+                ♧
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+function changeMonth(month) {
+
+    window.location.href =
+        "/budget?month=" + month;
+
+}
+
+</script>
+
+
+</body>
+
+</html>

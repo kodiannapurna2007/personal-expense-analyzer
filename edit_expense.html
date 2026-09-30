@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Expense - Personal Expense Analyzer</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+
+            background: linear-gradient(
+                135deg,
+                #0f172a,
+                #1e293b,
+                #0f172a
+            );
+
+            color: #f8fafc;
+
+            min-height: 100vh;
+        }
+
+
+        /* NAVBAR */
+
+        .navbar {
+            background: rgba(15, 23, 42, 0.95);
+
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+
+            padding: 18px 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .navbar a {
+            color: #cbd5e1;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #60a5fa;
+        }
+
+
+        /* CONTAINER */
+
+        .container {
+            width: 520px;
+
+            max-width: 92%;
+
+            margin: 45px auto;
+        }
+
+
+        /* FORM BOX */
+
+        .box {
+            background: rgba(30, 41, 59, 0.80);
+
+            padding: 30px;
+
+            border-radius: 16px;
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            box-shadow:
+                0 10px 35px rgba(0,0,0,0.3);
+        }
+
+
+        .box h2 {
+            text-align: center;
+
+            margin-bottom: 25px;
+
+            font-size: 25px;
+
+            color: white;
+        }
+
+
+        .subtitle {
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 14px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* LABELS */
+
+        label {
+            display: block;
+
+            margin-top: 16px;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #cbd5e1;
+        }
+
+
+        /* INPUTS */
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            border: 1px solid rgba(255,255,255,0.10);
+
+            background: rgba(15,23,42,0.8);
+
+            color: white;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #3b82f6;
+
+            box-shadow:
+                0 0 0 2px rgba(59,130,246,0.15);
+        }
+
+
+        /* SELECT OPTIONS */
+
+        select option {
+            background: #1e293b;
+            color: white;
+        }
+
+
+        /* DATE */
+
+        input[type="date"] {
+            color-scheme: dark;
+        }
+
+
+        /* TEXTAREA */
+
+        textarea {
+
+            height: 90px;
+
+            resize: vertical;
+
+            min-height: 70px;
+
+            max-height: 180px;
+        }
+
+
+        /* UPDATE BUTTON */
+
+        button {
+
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 13px;
+
+            background: #2563eb;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+
+        button:hover {
+
+            background: #1d4ed8;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* BACK BUTTON */
+
+        .back {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            padding: 11px;
+
+            text-decoration: none;
+
+            color: #60a5fa;
+
+            font-size: 14px;
+
+            border-radius: 7px;
+
+            transition: 0.3s;
+        }
+
+
+        .back:hover {
+
+            background: rgba(59,130,246,0.08);
+
+            color: #93c5fd;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+
+                padding: 18px;
+            }
+
+            .navbar-links {
+
+                margin-top: 12px;
+
+                gap: 12px;
+            }
+
+            .container {
+
+                margin: 30px auto;
+            }
+
+            .box {
+
+                padding: 22px;
+            }
+
+            .box h2 {
+
+                font-size: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+    <div class="logo">
+        Personal Expense Analyzer
+    </div>
+
+
+    <div class="navbar-links">
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+        <a href="/add-expense">
+            Add Expense
+        </a>
+
+        <a href="/expenses">
+            History
+        </a>
+
+        <a href="/budget">
+            Budget
+        </a>
+
+        <a href="/analytics">
+            Analytics
+        </a>
+
+        <a href="/prediction">
+            Prediction
+        </a>
+
+        <a href="/insights">
+            Insights
+        </a>
+
+        <a href="/logout">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <div class="box">
+
+        <h2>
+            Edit Expense
+        </h2>
+
+        <div class="subtitle">
+            Update your expense details
+        </div>
+
+
+        <form method="POST">
+
+
+            <!-- AMOUNT -->
+
+            <label>
+                Amount
+            </label>
+
+            <input
+                type="number"
+                name="amount"
+                step="0.01"
+                value="{{ expense.amount }}"
+                required
+            >
+
+
+            <!-- CATEGORY -->
+
+            <label>
+                Category
+            </label>
+
+            <select
+                name="category"
+                required
+            >
+
+                <option
+                    value="Food"
+                    {% if expense.category == "Food" %}selected{% endif %}
+                >
+                    Food
+                </option>
+
+
+                <option
+                    value="Travel"
+                    {% if expense.category == "Travel" %}selected{% endif %}
+                >
+                    Travel
+                </option>
+
+
+                <option
+                    value="Shopping"
+                    {% if expense.category == "Shopping" %}selected{% endif %}
+                >
+                    Shopping
+                </option>
+
+
+                <option
+                    value="Education"
+                    {% if expense.category == "Education" %}selected{% endif %}
+                >
+                    Education
+                </option>
+
+
+                <option
+                    value="Bills"
+                    {% if expense.category == "Bills" %}selected{% endif %}
+                >
+                    Bills
+                </option>
+
+
+                <option
+                    value="Entertainment"
+                    {% if expense.category == "Entertainment" %}selected{% endif %}
+                >
+                    Entertainment
+                </option>
+
+
+                <option
+                    value="Healthcare"
+                    {% if expense.category == "Healthcare" %}selected{% endif %}
+                >
+                    Healthcare
+                </option>
+
+
+                <option
+                    value="Others"
+                    {% if expense.category == "Others" %}selected{% endif %}
+                >
+                    Others
+                </option>
+
+            </select>
+
+
+            <!-- DATE -->
+
+            <label>
+                Date
+            </label>
+
+            <input
+                type="date"
+                name="expense_date"
+                value="{{ expense.expense_date }}"
+                required
+            >
+
+
+            <!-- PAYMENT METHOD -->
+
+            <label>
+                Payment Method
+            </label>
+
+            <select
+                name="payment_method"
+                required
+            >
+
+                <option
+                    value="UPI"
+                    {% if expense.payment_method == "UPI" %}selected{% endif %}
+                >
+                    UPI
+                </option>
+
+
+                <option
+                    value="Cash"
+                    {% if expense.payment_method == "Cash" %}selected{% endif %}
+                >
+                    Cash
+                </option>
+
+
+                <option
+                    value="Card"
+                    {% if expense.payment_method == "Card" %}selected{% endif %}
+                >
+                    Card
+                </option>
+
+
+                <option
+                    value="Net Banking"
+                    {% if expense.payment_method == "Net Banking" %}selected{% endif %}
+                >
+                    Net Banking
+                </option>
+
+            </select>
+
+
+            <!-- DESCRIPTION -->
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                name="description"
+                placeholder="Enter a short description..."
+            >{{ expense.description }}</textarea>
+
+
+            <!-- UPDATE -->
+
+            <button type="submit">
+                Update Expense
+            </button>
+
+
+        </form>
+
+
+        <!-- BACK -->
+
+        <a
+            class="back"
+            href="/expenses"
+        >
+            ← Back to Expense History
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
